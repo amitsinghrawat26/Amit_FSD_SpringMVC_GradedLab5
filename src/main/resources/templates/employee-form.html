@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 
@@ -28,7 +25,7 @@
 
 		<p class="h4 mb-4">Employee</p>
 
-		<form action="/employee/save" method="POST">
+		<form action="/EMS/saveEmployee" method="POST">
 
 			<!-- Add hidden form field to handle update -->
 			<input type="hidden" name="id" value="${Employee.id}" />
@@ -54,7 +51,7 @@
 		</form>
 
 		<hr>
-		<a href="/employees/employeeList">Back to Employee List</a>
+		<a href="/EMS/getAllEmployee">Back to Employee List</a>
 
 	</div>
 </body>
