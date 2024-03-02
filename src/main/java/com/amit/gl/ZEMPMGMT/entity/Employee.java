@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 
 @Entity
 public class Employee {
@@ -19,7 +20,21 @@ public class Employee {
 	private String lastName;
 	
 	private String email;
+	
+	public Employee() {
+		super();
+	}
+	public Employee(int id, String firstName, String lastName, String email) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+	}
 
+	public int getId() {
+		return id;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -48,4 +63,5 @@ public class Employee {
 	public String toString() {
 		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
 	}
+
 }

@@ -25,29 +25,45 @@ public class EmployeeDaoImp implements EmployeeDao {
 
 	@Transactional
 	public List<Employee> findAll() {
-		Session currentSession = entityManager.unwrap(Session.class);
-		Query query = currentSession.createQuery("from Employee");
-		List<Employee> employees = query.getResultList();
-		return employees;
-	}
+	        // Get the current Hibernate session
+	        Session currentSession = entityManager.unwrap(Session.class);
+	        
+	        Query query = currentSession.createQuery("from Employee", Employee.class);
+	        List<Employee> employees = query.getResultList();
+	        
+	        return employees;
+	    }
 
-	@Override
-	@Transactional
-	public void saveOrUpdate(Employee employee) {
-		Session currentSession = entityManager.unwrap(Session.class);
-		currentSession.saveOrUpdate(employee);
-	}
+    @Override
+    @Transactional
+    public void saveOrUpdate(Employee employee) {
+        // Get the current Hibernate session
+        Session currentSession = entityManager.unwrap(Session.class);
+        
+        currentSession.saveOrUpdate(employee);
+    }
 
-	@Override
-	@Transactional
-	public void deleteById(int id) {
 
-	}
+    @Override
+    @Transactional
+    public Employee findById(int id) {
+        // Get the current Hibernate session
+        Session currentSession = entityManager.unwrap(Session.class);
+        
+        Employee employee = currentSession.get(Employee.class, id);
+        
+        return employee;
+    }
 
-	@Override
-	public Employee findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    @Transactional
+    public void deleteById(int id)
+    {
+    	Session session = entityManager.unwrap(Session.class);
+    	
+    	Query query = session.createQuery("delete from Employee where id=:employeeId");
+        query.setParameter("employeeId", id);
+        query.executeUpdate();
+    }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,36 +27,50 @@ public class EmployeeController {
 	@GetMapping("/getAllEmployee")
 	public String getAllEmployee(Model model) {
 		List<Employee> emp = employeeService.findAll();
-		model.addAttribute("Employee", emp);
+		model.addAttribute("employee", emp);
 		return "employee-list";
 	}
 	
 	@GetMapping("/addEmployeeForm")
-	public String addEmployeeForm() {
+	public String addEmployeeForm(Model model) {
 		log.info("EmployeeController addEmployee()");
-//		Employee newEmployee = new Employee();
-//		model.addAttribute("Employee", newEmployee);
+		Employee newEmployee = new Employee();
+		model.addAttribute("employee", newEmployee);
 //		employeeService.saveOrUpdate(newEmployee);
 		return "employee-form";
 	}
 	
-	@GetMapping("/updateEmployeeForm")
-	public String updateEmployeeForm(@RequestParam("id") int id ,Model model)
+	@GetMapping("/updateEmployeeForm/{id}")
+	public String updateEmployeeForm(@PathVariable int id ,Model model)
 	{
-		
-		return "redirect:/EMS/getAllEmployee";
+		log.info("EmployeeController updateEmployeeForm() id"+id);
+
+		Employee updatedEmployee = employeeService.findById(id);
+		model.addAttribute("employee", updatedEmployee);
+		return "Employee-form";
 	}
 	
 	@PostMapping("/saveEmployee")
 	public String saveEmployee(@RequestParam("id") int id,@RequestParam("firstName") String firstName,
-			@RequestParam("lastName") int lastName,@RequestParam("email") String email) {
+			@RequestParam("lastName") String lastName,@RequestParam("email") String email) {
 		log.info("EmployeeController saveEmployee()");
-
+		
+		Employee employee;
+		if(id!=0) {
+			employee = employeeService.findById(id);
+			employee.setFirstName(firstName);
+			employee.setLastName(lastName);
+			employee.setEmail(email);
+		}
+		else {
+			employee = new Employee(id,firstName,lastName,email);
+		}
+		employeeService.saveOrUpdate(employee);
 		return "redirect:/EMS/getAllEmployee";
 	}
 	
-	@GetMapping("/deleteEmployee")
-	public String deleteEmployee(@RequestParam("id") int id)
+	@GetMapping("/deleteEmployee/{id}")
+	public String deleteEmployee(@PathVariable int id)
 	{
 		employeeService.deleteById(id);
 		return "redirect:/EMS/getAllEmployee";

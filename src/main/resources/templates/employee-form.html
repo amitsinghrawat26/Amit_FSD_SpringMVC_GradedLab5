@@ -1,60 +1,95 @@
 <!DOCTYPE html>
-<html>
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- Bootstrap CSS -->
+<meta charset="ISO-8859-1">
+<title>Employee Management System</title>
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
-
-<title>Save Employee</title>
 </head>
-
 <body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">Employee Management System</a>
 
-	<div class="container">
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-		<h3>Employee Directory</h3>
-		<hr>
-
-		<p class="h4 mb-4">Employee</p>
-
-		<form action="/EMS/saveEmployee" method="POST">
-
-			<!-- Add hidden form field to handle update -->
-			<input type="hidden" name="id" value="${Employee.id}" />
-
-			<div class="form-inline">
-				<input type="text" name="firstName" value="${Employee.firstName}"
-					class="form-control mb-4 col-4" placeholder="FristName">
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/employee}">Employee Management</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<br>
+<br>
+	<div class = "container">
+		<div class = "row">
+			<div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+				<h1 class = "text-center"> Create New Employee </h1>
+				<div class = "card-body">
+					<form th:action="@{/EMS/saveEmployee}" th:object = "${employee}" method="POST">
+						
+						<div class ="form-group" hidden>
+							<input
+							type = "number"
+							name = "id"
+							th:field = "*{id}"
+							class = "form-control"
+							placeholder="Id" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label> Employee First Name </label>
+							<input
+							type = "text"
+							name = "firstName"
+							th:field = "*{firstName}"
+							class = "form-control"
+							placeholder="First Name" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label> Employee Last Name </label>
+							<input
+							type = "text"
+							name = "lastName"
+							th:field = "*{lastName}"
+							class = "form-control"
+							placeholder="Last Name" 
+							/>
+						</div>
+						
+						<div class ="form-group">
+							<label> Employee Email </label>
+							<input
+							type = "text"
+							name = "email"
+							th:field = "*{email}"
+							class = "form-control"
+							placeholder="Email" 
+							/>
+						</div>
+						
+						<div class = "box-footer">
+							<button type="submit" class = "btn btn-primary">
+								Submit
+							</button>
+						</div>
+					</form>
+				
+				</div>
 			</div>
-
-			<div class="form-inline">
-				<input type="text" name="lastName" value="${Employee.lastName}"
-					class="form-control mb-4 col-4" placeholder="LastName">
-			</div>
-
-			<div class="form-inline">
-				<input type="text" name="email" value="${Employee.email}"
-					class="form-control mb-4 col-4" placeholder="Email">
-			</div>
-
-
-			<button type="submit" class="btn btn-info col-2">Save</button>
-
-		</form>
-
-		<hr>
-		<a href="/EMS/getAllEmployee">Back to Employee List</a>
-
+		</div>
 	</div>
 </body>
-
 </html>
 
